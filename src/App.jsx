@@ -1,34 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import Hamburger from 'hamburger-react'
+import HamburgerMenu from './components/HamburgerMenu';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [isActiveCross, setIsActiveCross] = useState(false);
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {/* <Hamburger toggled={isActiveCross} toggle={setIsActiveCross}/>
+        <FontAwesomeIcon icon={faXmark} /> */}
+        <HamburgerMenu/>
       </div>
-      <h1 className='text-red-500'>Vite + React</h1>
-      <h1 className='text-red-500'>Making changes to push to git</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

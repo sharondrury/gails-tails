@@ -1,0 +1,48 @@
+{
+  "name": "Sharon Drury",
+  "postion": "Dev",
+  "verified": true,
+  "description": "Hello, my name is Shaz and I make shit websites",
+  "city": "Corwen",
+  "social": [],
+  "projects": [],
+  "experience": [],
+  "linkers": [
+    {
+      "title": "Google",
+      "url": "https://www.google.com"
+    },
+    {
+      "title": "Instagram",
+      "url": "https://www.instagram.com"
+    },
+    {
+      "title": "Hamburger App",
+      "url": "https://hamburger-react.netlify.app/"
+    },
+    {
+      "title": "Other",
+      "url": "https://hamburger-react.netlify.app/"
+    }
+  ],
+  "links": [
+    {
+      "title": "Homepage",
+      "id": "#homepage",
+      "url": "https://www.google.com"
+    },
+    {
+      "title": "About",
+      "id": "#about",
+      "url": "#about"
+    },
+    {
+      "title": "Hamburger App",
+      "url": "https://hamburger-react.netlify.app/"
+    },
+    {
+      "title": "Other",
+      "url": "https://hamburger-react.netlify.app/"
+    }
+  ]
+}
