@@ -7,42 +7,9 @@
   "social": [],
   "projects": [],
   "experience": [],
-  "linkers": [
-    {
-      "title": "Google",
-      "url": "https://www.google.com"
-    },
-    {
-      "title": "Instagram",
-      "url": "https://www.instagram.com"
-    },
-    {
-      "title": "Hamburger App",
-      "url": "https://hamburger-react.netlify.app/"
-    },
-    {
-      "title": "Other",
-      "url": "https://hamburger-react.netlify.app/"
-    }
-  ],
   "links": [
-    {
-      "title": "Homepage",
-      "id": "#homepage",
-      "url": "https://www.google.com"
-    },
-    {
-      "title": "About",
-      "id": "#about",
-      "url": "#about"
-    },
-    {
-      "title": "Hamburger App",
-      "url": "https://hamburger-react.netlify.app/"
-    },
-    {
-      "title": "Other",
-      "url": "https://hamburger-react.netlify.app/"
-    }
+    { "text": "Home", "href": "#homepage" },
+    { "text": "About", "href": "#about" },
+    { "text": "Price list", "href": "#pricelist" }
   ]
 }
