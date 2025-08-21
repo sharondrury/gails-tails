@@ -7,6 +7,7 @@ import Header from "./Header";
 import AboutPage from "./About";
 import Homepage from "./Homepage";
 import PriceList from "./PriceList";
+import Testimonials from "./testimonials";
 
 export default function HamburgerMenu() {
     const [open, setOpen] = useState(false);
@@ -14,9 +15,9 @@ export default function HamburgerMenu() {
     const { links } = config;
     return (
       <>
-        <section className="flex justify-center bg-red-200 pt-[88px]">
+        <section className="flex justify-center bg-[#D9D9D9] pt-[88px]">
           <div className="w-full max-w-[500px] min-[500px]:max-w-[1000px] relative">
-            <div className="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-[500px] min-[500px]:max-w-[1000px] bg-[#D5BE9F] shadow-[0_6px_12px_rgba(0,0,0,0.1)] z-10">
+            <div className="nav-background fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-[500px] min-[500px]:max-w-[1000px] z-10">
               {/* Mobile: Logo left, hamburger right */}
               <div className="min-[500px]:hidden flex items-center justify-between py-5 px-4">
                 <a href="#homepage">
@@ -30,7 +31,7 @@ export default function HamburgerMenu() {
               </div>
 
               {/* Desktop: Logo left, Header right */}
-              <div className="hidden min-[500px]:flex items-center justify-between p-4">
+              <div className="hidden min-[500px]:flex items-center p-4">
                 <a href="#homepage">
                   <img
                     src="/src/assets/logoOther.svg"
@@ -54,24 +55,26 @@ export default function HamburgerMenu() {
             )}
 
             <section>
-              {/* <div className="h-[88px]">this shouldn't be here...</div> */}
-              <div
-                id="homepage"
-                className="h-[500px] bg-yellow-100 p-4 scroll-mt-[88px] flex justify-center items-center"
-              >
+              <div id="homepage" className="h-auto p-4 scroll-mt-[88px]">
                 <Homepage />
               </div>
               <div
                 id="about"
-                className="h-[500px] bg-purple-400 p-4 text-white scroll-mt-[88px] flex justify-center items-center"
+                className="h-auto bg-white p-4 text-gray-700 scroll-mt-[88px]"
               >
                 <AboutPage />
               </div>
               <div
                 id="pricelist"
-                className="h-[500px] bg-blue-100 p-4 scroll-mt-[88px] flex justify-center items-center"
+                className="h-auto bg-[#F38299] p-4 scroll-mt-[88px]"
               >
                 <PriceList />
+              </div>
+              <div
+                id="testimonials"
+                className="h-auto p-4 scroll-mt-[88px]"
+              >
+                <Testimonials />
               </div>
             </section>
           </div>
