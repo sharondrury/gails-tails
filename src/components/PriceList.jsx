@@ -45,7 +45,7 @@ export default function PriceList() {
     <div className="max-w-4xl mx-auto p-6">
       {/* Header */}
       <div className="">
-        <h1 className="text-2xl font-bold text-white">Price lists</h1>
+        <h1 className="text-3xl font-bold text-white">Price lists</h1>
       </div>
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
         {/* Toggle Buttons */}
