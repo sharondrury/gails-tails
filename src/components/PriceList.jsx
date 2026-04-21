@@ -8,7 +8,7 @@ export default function PriceList() {
     dogwalking: {
       title: "Dog walking",
       content: (
-          "Dog boarding is a service where pet owners can leave their dogs inthe care of a facility or professional caregiver when they're away, whether for a few days or an extended period. Boarding facilities, often called kennels, typically provide essentials like food, water, exercise, and shelter. Many modern dog boarding centers go beyond basic care, offering playtime, socialization with other dogs, grooming, and even specialized accommodations like private suites."
+          "Dog boarding is a service where pet owners can leave their dogs in the care of a facility or professional caregiver when they're away, whether for a few days or an extended period. Boarding facilities, often called kennels, typically provide essentials like food, water, exercise, and shelter. Many modern dog boarding centers go beyond basic care, offering playtime, socialization with other dogs, grooming, and even specialized accommodations like private suites."
       ),
     },
     dogboarding: {
