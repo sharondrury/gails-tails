@@ -1,0 +1,274 @@
+EPIC-001 — Nav Implementation Notes
+=====================================
+Project: Gails Tails
+Read alongside: features.txt
+
+---
+
+Feat-001 | File rename & scaffold
+  What was implemented:
+    - The project had no heading/ folder. The equivalent components were Header.jsx
+      and HamburgerMenu.jsx in src/components/. Both were replaced by a new
+      src/components/nav/nav.jsx + nav.scss.
+    - App.jsx was refactored to import Nav directly and render the page sections inline.
+    - config.json, Header.jsx, HamburgerMenu.jsx, and List.jsx were deleted (dead code).
+
+  Engine components considered:
+    - src/engine/ui/bars/bars.jsx — considered; not used. The nav is a site-specific
+      component that owns layout, scroll, and sticky behaviour — not a generic bar.
+    - All other engine components (modal, toast, etc.) — not relevant to nav.
+
+  Files changed:
+    - DELETED: src/components/config.json
+    - DELETED: src/components/Header.jsx
+    - DELETED: src/components/HamburgerMenu.jsx
+    - DELETED: src/components/List.jsx
+    - CREATED: src/components/nav/nav.jsx
+    - CREATED: src/components/nav/nav.scss
+    - MODIFIED: src/App.jsx
+
+  Tradeoffs / follow-up:
+    - The project previously had no src/website/ folder structure as described in
+      rules.txt. Nav was placed in src/components/nav/ to match the existing pattern.
+      If the website/ structure is adopted later, nav should move to
+      src/website/components/nav/.
+
+  What was added (learning):
+    - nav.jsx is now the single source of truth for navigation. It combines what was
+      previously split across HamburgerMenu.jsx (layout + state) and Header.jsx (links).
+    - App.jsx is now a clean layout shell: Nav at the top, then page sections with their
+      scroll-target ids.
+
+---
+
+Feat-002 | Links data inlined into Nav.jsx
+  What was implemented:
+    - LINKS constant declared at module scope in nav.jsx with three objects:
+      { label, target } where target matches the section id in App.jsx.
+    - No config.json import anywhere in the codebase.
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.jsx
+  What was added (learning):
+    - Keeping link data as a plain const inside the component file is simpler and more
+      traceable than loading it from JSON. The data is small and unlikely to change at
+      runtime.
+
+---
+
+Feat-003 | Smooth scroll-to-section
+  What was implemented:
+    - handleNavClick(target) calls document.getElementById(target)?.scrollIntoView
+      with { behavior: 'smooth' } and also closes the mobile menu.
+    - Links render as <button> elements with onClick handlers (no React Router).
+    - Section ids confirmed in App.jsx: id="home", id="about", id="price-list".
+    - About.jsx had a duplicate id="about" on its inner <section> — removed to avoid
+      invalid HTML.
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.jsx, src/components/About.jsx, src/App.jsx
+  What was added (learning):
+    - Using optional chaining (?.) on getElementById means the handler fails silently if
+      a section id is missing — no uncaught errors, but also no visible feedback. If a
+      target section is ever missing, check the id spelling in App.jsx first.
+
+---
+
+Feat-004 | Full-width nav background
+  What was implemented:
+    - .nav has position: fixed, width: 100%, no max-width — spans the full viewport.
+    - .nav__inner has max-width: 1000px, margin: 0 auto — centres the links content.
+      (Updated from the original 750px spec at the client's request.)
+    - The existing .nav-background class in App.css was removed (logic now in nav.scss).
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.scss, src/App.css
+  What was added (learning):
+    - The two-div pattern (.nav full-width, .nav__inner constrained) is the standard
+      approach for a nav bar that has a full-bleed background but constrained content.
+
+---
+
+Feat-005 | Link styling
+  What was implemented:
+    - --nav-link-hover: #F38299 added to src/assets/scss/ui/colours.scss (new file).
+    - .nav__link: color white, font-weight bold, no text-decoration by default,
+      padding: 6px 0 (vertical hit-area without affecting horizontal layout).
+    - .nav__link:hover: text-decoration underline, text-decoration-color var(--nav-link-hover).
+    - .nav__links gap increased from 24px to 40px to give links more breathing room.
+    - sass installed as a dev dependency to enable SCSS compilation via Vite.
+
+  Engine components considered: None applicable.
+  Files changed: src/assets/scss/ui/colours.scss (new), src/components/nav/nav.scss
+  What was added (learning):
+    - CSS custom properties (--nav-link-hover) are defined in colours.scss so they are
+      the single source of truth. nav.scss consumes them via var(). Any future component
+      that needs the hover pink can use the same token.
+    - text-decoration-color lets us underline in a specific colour without changing the
+      text colour — exactly what Feat-005 requires.
+    - Padding on the link button increases the clickable area without changing the visual
+      gap between link labels; gap on the list controls the visual spacing.
+
+---
+
+Feat-006 | Links container width & alignment
+  What was implemented:
+    - .nav__inner: display flex, align-items center, max-width 1000px, margin 0 auto,
+      padding 16px. No gap needed — logo is no longer a flex sibling (see Feat-007).
+    - .nav__links: display flex, gap 24px, list-style none, no extra padding.
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.scss
+  What was added (learning):
+    - gap on .nav__links separates the individual link buttons from each other.
+      The logo gap was removed when the logo moved to absolute positioning.
+
+---
+
+Feat-007 | Logo — desktop placement
+  What was implemented:
+    - Logo (<a class="nav__logo">) is a direct child of <nav>, outside .nav__inner entirely.
+    - .nav__logo uses position: absolute; left: 16px; top: 50%; transform: translateY(-50%)
+      so it floats against the left edge of the viewport, independent of the 1000px container.
+    - This gives the intentional visual effect of the logo sitting outside the constrained
+      site content zone — it does not align with the links or page content width.
+    - Updated from the original flex-sibling approach at the client's request.
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.jsx, src/components/nav/nav.scss
+  What was added (learning):
+    - Absolutely positioning the logo inside a position: fixed parent means it is placed
+      relative to the nav bar itself (the fixed element is its containing block).
+      top: 50% + translateY(-50%) is the standard trick to vertically centre an absolutely
+      positioned element when the parent height is not known ahead of time.
+
+---
+
+Feat-008 | Nav — hamburger menu
+  What was implemented:
+    - useState(false) for menuOpen.
+    - useRef(null) on <nav> for outside-click detection via mousedown event listener.
+    - Hamburger button (☰) visible at max-width: 1016px; hidden above that.
+    - Clicking hamburger toggles menuOpen; clicking a link calls handleNavClick which
+      also sets menuOpen(false).
+    - .nav__links--open class applied when menuOpen is true; dropdown panel drops from
+      the RIGHT edge of the nav (position: absolute; right: 0; min-width: 200px).
+    - Panel uses $dropdown-bg (rgba(89, 89, 89, 0.97)) — solid dark fill that reads
+      clearly against any page background. Border-radius 0 0 0 8px rounds the bottom-left.
+    - Breakpoint changed from 499px to 1016px at client request — hamburger now covers
+      all tablet and small desktop widths, not just narrow mobile.
+
+  Engine components considered:
+    - hamburger-react package was used in the old HamburgerMenu.jsx. Not used here.
+      The ☰ Unicode character is simpler, has no extra dependency, and meets the spec.
+  Files changed: src/components/nav/nav.jsx, src/components/nav/nav.scss
+  What was added (learning):
+    - The outside-click pattern uses a mousedown listener on document, checking if the
+      click target is inside navRef.current. useEffect cleanup removes the listener when
+      the component unmounts — important to avoid memory leaks.
+    - Anchoring the dropdown to right: 0 (rather than left: 0 / full width) gives it a
+      panel feel that originates from the hamburger button location, which is more natural
+      on larger screens where a full-width dropdown would feel disproportionate.
+
+---
+
+Feat-009 | Sticky nav — show on scroll down, hide on scroll up
+  What was implemented:
+    - useState(true) for navVisible.
+    - useRef(0) for lastScrollY to track previous scroll position without causing
+      re-renders on every scroll event.
+    - handleScroll compares window.scrollY to lastScrollY.current. If current > last,
+      user is scrolling down (nav hides). If current < last or < 10px from top, nav shows.
+    - nav--hidden class applies transform: translateY(-100%) with transition 0.3s ease.
+    - Separate useEffect closes mobile menu when navVisible becomes false.
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.jsx, src/components/nav/nav.scss
+  Tradeoffs:
+    - scroll event fires very frequently. { passive: true } is set to allow the browser
+      to optimise scroll performance (no preventDefault needed here).
+    - lastScrollY is a ref (not state) so scroll comparisons don't trigger re-renders.
+      Only setNavVisible triggers a render when direction actually changes.
+  What was added (learning):
+    - Using a ref for lastScrollY is a common React pattern for values that need to
+      persist between renders but should not cause a re-render when they change.
+
+---
+
+Feat-010 | Site font — Imprima
+  What was implemented:
+    - :root font-family in App.css changed from "Inconsolata" to "Imprima".
+    - Imprima was already present in the Google Fonts link in index.html — no HTML
+      changes needed.
+    - .hero-heading retains "Corben" as its explicit override; all other text
+      inherits Imprima from :root.
+
+  Engine components considered: None applicable.
+  Files changed: src/App.css
+  What was added (learning):
+    - Setting font-family on :root means every element inherits it unless it has its
+      own font-family rule. Components that need a different font (like the hero
+      heading) just override with their own class.
+
+---
+
+Feat-011 | Contact Us section
+  What was implemented:
+    - Created src/components/contactUs/contactUs.jsx following the rules.txt component
+      template (const ContactUs = () => { ... }; export default ContactUs).
+    - Renders a form with name, email, message fields and a submit button styled in
+      the site's brand pink (#F38299 via Tailwind class).
+    - Section added to App.jsx as the last child inside the page wrapper, with
+      id="contact-us" and scroll-mt-[88px] to account for the fixed nav.
+    - White background (bg-white) to visually separate it from the testimonials section.
+
+  Engine components considered:
+    - No engine form/modal components exist that match this use case.
+  Files changed: src/components/contactUs/contactUs.jsx (new), src/App.jsx
+  Tradeoffs / follow-up:
+    - Form is UI-only — no submission handler or backend wired up yet. A future task
+      should connect this to an email service or form provider.
+  What was added (learning):
+    - htmlFor on <label> paired with id on the matching <input> is required for
+      accessibility — it lets screen readers and clicking the label focus the field.
+
+---
+
+Feat-012 | Contact Us nav link
+  What was implemented:
+    - { label: 'Contact Us', target: 'contact-us' } appended to the LINKS constant
+      in nav.jsx.
+    - No other nav code needed to change — handleNavClick already handles any target
+      generically via document.getElementById(target)?.scrollIntoView.
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.jsx
+  What was added (learning):
+    - Because LINKS drives both the desktop list and the mobile dropdown, adding one
+      entry here automatically appears in both places with no extra code.
+
+---
+
+Feat-013 | Nav responsiveness — links clear of logo
+  What was implemented:
+    - A 72px padding-left fix was applied to nav__inner to prevent links overlapping
+      the absolutely positioned logo on screens between 1016px and ~1080px.
+    - The fix was subsequently removed at client request — nav__inner padding is now
+      uniform 16px on all sides with no mobile reset needed.
+    - Above ~1080px the centred 1000px nav__inner starts far enough right that the logo
+      at left: 16px does not reach the links.
+
+  Engine components considered: None applicable.
+  Files changed: src/components/nav/nav.scss
+
+---
+
+General notes
+  - sass installed as a devDependency to enable Vite SCSS compilation.
+  - src/assets/scss/ui/ folder created with colours.scss, typography.scss, _import.scss
+    per rules.txt styling guidelines.
+  - The hamburger-react package remains in package.json but is no longer used. It can
+    be removed in a future cleanup pass.
+  - No engine components were reused — all nav behaviour is self-contained. Justified
+    because: no engine bars/modal/panel component matched the sticky scroll-direction
+    nav pattern required.

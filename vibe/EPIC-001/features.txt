@@ -1,0 +1,115 @@
+EPIC-001 — Nav Component
+=========================
+Project: Gails Tails
+Component rename: Heading.jsx → Nav.jsx (+ Nav.scss)
+Config removed: config.json deleted — links data lives inside Nav.jsx
+
+---
+
+Feat-001 | File rename & scaffold
+  - Rename folder: gails-tails/src/website/components/heading/ → nav/
+  - Rename file:   heading.jsx → nav.jsx
+  - Rename file:   heading.scss → nav.scss (if it exists)
+  - Update all imports across the project that reference heading/heading to nav/nav
+    (check App.jsx, any page files, and any barrel index files)
+  - Delete config.json from wherever it currently lives
+  Status: done
+
+Feat-002 | Links data inlined into Nav.jsx
+  - Remove any import of config.json
+  - Declare a LINKS constant array inside Nav.jsx:
+      const LINKS = [
+        { label: 'Home',       target: 'home' },
+        { label: 'About',      target: 'about' },
+        { label: 'Price List', target: 'price-list' },
+      ]
+  - Each object has a human-readable label and the id of the section it scrolls to
+  Status: done
+
+Feat-003 | Smooth scroll-to-section on link click
+  - Each link onClick calls:
+      document.getElementById(link.target)?.scrollIntoView({ behavior: 'smooth' })
+  - No page navigation — single-page scroll only
+  - Confirm the three target section ids exist in the page:
+      id="home", id="about", id="price-list"
+  - Links render as <button> or <a href="#"> (not React Router <Link>) to avoid
+    full navigation
+  Status: done
+
+Feat-004 | Nav full-width background
+  - .nav-background (or equivalent wrapper) must span 100% of the viewport width
+  - No max-width restriction on the background element itself
+  - Inner content container is constrained to 1000px and centred
+  Status: done
+
+Feat-005 | Link styling
+  - Link text colour: white
+  - Font weight: bold
+  - On hover: underline in #F38299
+    (add --nav-link-hover: #F38299 to the project colour tokens file if not present)
+  - No colour change on hover — only the underline changes
+  - Each link has padding: 6px 0 for vertical hit-area; links separated by gap: 40px
+  Status: done
+
+Feat-006 | Link container width & alignment
+  - Links container max-width: 1000px
+  - Horizontally centred within the nav
+  - Links sit inline (flex row) and align vertically with the rest of the site content
+  Status: done
+
+Feat-007 | Logo placement — desktop
+  - Logo is absolutely positioned to the left edge of the nav (left: 16px, vertically centred)
+  - Logo sits entirely outside the 1000px links container — visually unaligned with site content
+  - Links container is centred independently; logo floats left of it
+  Status: done
+
+Feat-008 | Nav — hamburger menu
+  Breakpoint: 1016px (links collapse to hamburger at or below this width)
+  - Logo: stays visible inside the nav, aligned left
+  - Links: hidden; replaced by a hamburger icon (☰) aligned right
+  - Clicking hamburger toggles a dropdown panel that drops from the RIGHT of the nav
+  - Dropdown shows all links stacked vertically in a solid dark panel (min-width 200px)
+  - Panel has a rounded bottom-left corner; anchored to the right edge of the viewport
+  - Clicking a dropdown link scrolls to section and closes the dropdown
+  - Clicking outside the dropdown also closes it
+  - useState controls open/closed state; useRef handles outside-click detection
+  Status: done
+
+Feat-009 | Sticky nav — show on scroll down, hide on scroll up
+  - Nav is position: fixed, top: 0, full width, high z-index
+  - On scroll DOWN: nav is visible (translateY(0))
+  - On scroll UP: nav slides out of view (translateY(-100%))
+  - Transition: smooth CSS transition on transform (e.g. 0.3s ease)
+  - useEffect + scroll event listener tracks scroll direction via lastScrollY ref
+  - On mobile the hamburger dropdown also hides when the nav hides
+  Status: done
+
+Feat-010 | Site font — Imprima
+  - Global body font changed from Inconsolata to Imprima
+  - Font already loaded via Google Fonts in index.html
+  - :root font-family updated in App.css
+  - Hero heading (.hero-heading) retains Corben as its override font
+  Status: done
+
+Feat-011 | Contact Us section
+  - New component: src/components/contactUs/contactUs.jsx
+  - Renders a contact form (name, email, message, submit)
+  - Section id="contact-us" added to App.jsx as the last page section (bottom of page)
+  - White background to distinguish from surrounding sections
+  Status: done
+
+Feat-012 | Contact Us nav link
+  - "Contact Us" added to LINKS array in nav.jsx with target: 'contact-us'
+  - Smooth-scrolls to id="contact-us" on click, same as other nav links
+  - Appears as the fourth link in both desktop and mobile nav
+  Status: done
+
+Feat-013 | Nav responsiveness — links clear of logo
+  - Padding-left fix (72px) applied and subsequently removed at client request.
+  - nav__inner padding is uniform 16px on all sides.
+  - At desktop widths above ~1080px the logo naturally clears the links container
+    because the centred 1000px inner starts to the right of the logo position.
+  Status: done
+
+---
+STOP AND TEST when all 13 features are marked done.

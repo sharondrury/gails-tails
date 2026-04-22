@@ -1,20 +1,16 @@
-// import config from "./config.json";
-
-// const { links } = config;
-
 export default function Homepage() {
     return (
       <>
         <section id="homepage" className="w-full relative hero-container">
           <div className="absolute top-[-140px] right-[-90px]">
             <img
-              src="./src/assets/Golden-Retriever.jpg"
+              src="./src/assets/images/Golden-Retriever.jpg"
               alt="doggy"
               className="dog-image-top-right rounded-4xl border-[25px] border-[#D5BE9F]"
             />
           </div>
           <div className="absolute top-[220px] left-[-80px]">
-            <img src="./src/assets/dogPawsWave.svg" alt="" className="paw-prints"/>
+            <img src="./src/assets/images/dogPawsWave.svg" alt="" className="paw-prints"/>
           </div>
           <div className="text-left  hero-text-section">
             <h1 className="text-5xl hero-heading">GAIL's TAIL's</h1>

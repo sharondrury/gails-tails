@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Carousel } from "primereact/carousel";
-import dogWalkImage from "/src/assets/dog-walk.jpg";
+import dogWalkImage from "/src/assets/images/dog-walk.jpg";
 
 const ProductService = [
   {
@@ -9,17 +9,17 @@ const ProductService = [
     text: "Some text 1",
   },
   {
-    image: "/assets/dog-walk.jpg",
+    image: dogWalkImage,
     name: "Pet image",
     text: "Some text 2",
   },
   {
-    image: "assets/dog-walk.jpg",
+    image: dogWalkImage,
     name: "Pet image",
     text: "Some text 3",
   },
   {
-    image: "assets/dog-walk.jpg",
+    image: dogWalkImage,
     name: "Pet image",
     text: "Some text 4",
   },

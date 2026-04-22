@@ -19,7 +19,7 @@ export default function AboutPage() {
 
   return (
     <>
-      <section id="about">
+      <section>
         <h1 className="text-4xl">About</h1>
         <section className="grid grid-cols-2">
           <div className="flex flex-col items-left">
@@ -36,10 +36,10 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="flex items-center">
-            <img src="./src/assets/terrier.jpg" alt="" />
+            <img src="./src/assets/images/terrier.jpg" alt="" />
           </div>
           <div className="flex items-center">
-            <img src="./src/assets/dog-walk.jpg" alt="" />
+            <img src="./src/assets/images/dog-walk.jpg" alt="" />
           </div>
           <div className="p-4">
             <div>

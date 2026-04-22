@@ -1,0 +1,147 @@
+EPIC-001 — Nav Testing
+======================
+
+---
+
+Feat-001 | File rename & scaffold
+  Manual test steps:
+    1. Open the project in a browser (npm run dev).
+    2. Confirm the page loads without errors in the console.
+    3. Confirm config.json, Header.jsx, HamburgerMenu.jsx, and List.jsx no longer exist in src/components/.
+    4. Confirm src/components/nav/nav.jsx and nav.scss exist.
+  Expected result: No import errors; page renders correctly.
+  Automated tests: None written. Should add: a render test confirming Nav mounts without throwing.
+  Test status: not started
+
+Feat-002 | Links data inlined into Nav.jsx
+  Manual test steps:
+    1. Inspect the rendered nav in the browser.
+    2. Confirm three links appear: Home, About, Price List.
+    3. Confirm no network request is made to config.json.
+  Expected result: Three nav links visible, no config.json import.
+  Automated tests: None. Should add: unit test asserting LINKS constant equals expected array.
+  Test status: not started
+
+Feat-003 | Smooth scroll-to-section on link click
+  Manual test steps:
+    1. On desktop, click each nav link (Home, About, Price List).
+    2. Confirm the page scrolls smoothly to the matching section.
+    3. Confirm section ids home, about, price-list are present in the DOM.
+    4. Confirm no full page navigation occurs (URL should not change meaningfully).
+  Expected result: Smooth scroll to correct section on each click.
+  Automated tests: None. Should add: integration test simulating click and checking scrollIntoView called.
+  Test status: not started
+
+Feat-004 | Nav full-width background
+  Manual test steps:
+    1. On a wide monitor (>1200px), confirm the nav background spans the full viewport width.
+    2. Confirm inner content is constrained to 1000px and centred.
+    3. Inspect .nav and .nav__inner in browser DevTools — verify no max-width on .nav.
+  Expected result: Background bleeds edge-to-edge; links centred in 1000px inner container.
+  Automated tests: Visual regression test recommended.
+  Test status: not started
+
+Feat-005 | Link styling
+  Manual test steps:
+    1. Inspect nav links in the browser — confirm text colour is white and font weight is bold.
+    2. Hover over each link — confirm an underline appears.
+    3. Confirm underline colour is #F38299 (inspect via DevTools computed styles).
+    4. Confirm link text colour does NOT change on hover.
+  Expected result: White bold text; pink underline on hover only.
+  Automated tests: None. Snapshot test of nav could cover this.
+  Test status: not started
+
+Feat-006 | Link container width & alignment
+  Manual test steps:
+    1. On desktop, open DevTools and inspect .nav__links.
+    2. Confirm links are arranged in a row (flex-direction: row).
+    3. Confirm .nav__inner max-width is 1000px and centred.
+    4. Confirm links are vertically aligned with the logo (align-items: center).
+  Expected result: Links in a horizontal row, centred within 1000px container.
+  Automated tests: Visual regression recommended.
+  Test status: not started
+
+Feat-007 | Logo placement — desktop
+  Manual test steps:
+    1. On desktop (viewport > 499px), confirm logo appears to the LEFT of the links.
+    2. Confirm the logo sits outside the 1000px links container — visually to the left of it.
+    3. Confirm logo and links share the same vertical midline.
+  Expected result: Logo floats at the left edge of the viewport; links are independently centred in 1000px container.
+  Automated tests: None.
+  Test status: not started
+
+Feat-008 | Nav — hamburger menu
+  Manual test steps:
+    1. Resize browser to 1016px wide or less — confirm desktop links are hidden and
+       hamburger icon (☰) appears on the right.
+    2. Resize to 1017px — confirm hamburger is gone and desktop links are visible.
+    3. At ≤1016px, confirm logo is still visible on the left.
+    4. Click hamburger — confirm a dropdown panel drops from the RIGHT edge of the nav,
+       showing all links (Home, About, Price List, Contact Us) stacked vertically.
+    5. Confirm the panel has a dark background and a rounded bottom-left corner.
+    6. Click a dropdown link — confirm smooth scroll to section and panel closes.
+    7. Click outside the dropdown panel — confirm panel closes.
+    8. Open dropdown, then scroll until nav hides — confirm panel also closes.
+  Expected result: Right-anchored dropdown panel toggles; outside click and nav-hide both close it.
+  Automated tests: None. Should add: unit tests for state transitions.
+  Test status: not started
+
+Feat-009 | Sticky nav — show on scroll down, hide on scroll up
+  Manual test steps:
+    1. Load page and scroll DOWN past the nav height.
+    2. Confirm nav is visible (translateY(0)) while scrolling down.
+    3. Scroll UP — confirm nav slides back into view smoothly.
+    4. Scroll DOWN rapidly — confirm nav slides out of view (translateY(-100%)).
+    5. Confirm transition is smooth (0.3s ease), not instant.
+    6. Confirm nav reappears when scrolling back up.
+  Expected result: Nav hides on scroll down, reappears on scroll up, smooth transition.
+  Automated tests: None. Should add: unit test for handleScroll logic with mocked window.scrollY.
+  Test status: not started
+
+
+Feat-010 | Site font — Imprima
+  Manual test steps:
+    1. Open the site in a browser (npm run dev).
+    2. Inspect any body text in DevTools — confirm computed font-family is Imprima.
+    3. Confirm the hero heading ("GAIL's TAIL's") still renders in Corben, not Imprima.
+    4. Check nav links, paragraph text, labels, and buttons — all should use Imprima.
+  Expected result: Imprima applied globally; Corben retained for hero heading only.
+  Automated tests: None. A snapshot test of the root element's computed style could cover this.
+  Test status: not started
+
+Feat-011 | Contact Us section
+  Manual test steps:
+    1. Scroll to the bottom of the page — confirm a Contact Us section is present.
+    2. Confirm the section has a heading, a short description, and a form.
+    3. Confirm the form contains: name field, email field, message textarea, and submit button.
+    4. Confirm the submit button is styled in the brand pink.
+    5. Confirm the section has a white background distinguishing it from the testimonials above.
+  Expected result: Contact Us section visible at page bottom with a complete form.
+  Automated tests: None. Should add: render test confirming form fields are present.
+  Test status: not started
+
+Feat-012 | Contact Us nav link
+  Manual test steps:
+    1. On desktop, confirm a "Contact Us" link appears in the nav alongside Home, About, Price List.
+    2. Click "Contact Us" — confirm the page scrolls smoothly to the contact section.
+    3. On mobile (viewport ≤ 499px), open the hamburger dropdown — confirm "Contact Us" appears.
+    4. Click "Contact Us" from the dropdown — confirm scroll to section and menu closes.
+  Expected result: Contact Us link works in both desktop and mobile nav.
+  Automated tests: None. Should add: click handler test for the contact-us target.
+  Test status: not started
+
+Feat-013 | Nav responsiveness — links clear of logo
+  Note: the 72px padding-left fix was applied then removed at client request.
+  nav__inner now uses uniform 16px padding. Links and logo may be close on screens
+  between 1016px and ~1080px; this is accepted behaviour.
+
+  Manual test steps:
+    1. Open the site in a browser (npm run dev).
+    2. Resize to 1016px — confirm the hamburger shows and no desktop links are visible.
+    3. Resize to 1017px — confirm desktop links appear.
+    4. Resize to 1200px — confirm logo sits outside the 1000px container to the left.
+    5. Resize to 1400px — confirm logo and links remain well separated.
+  Expected result: Desktop links visible above 1016px; accepted that logo may sit close
+  to links between 1016px and ~1080px.
+  Automated tests: None.
+  Test status: not started
