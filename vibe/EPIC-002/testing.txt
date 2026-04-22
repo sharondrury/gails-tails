@@ -1,0 +1,89 @@
+EPIC-002 — Testing Checklist
+==============================
+Project: Gails Tails
+Read alongside: features.txt, implementation.txt
+
+---
+
+Feat-001 | Rename Homepage → Hero
+  [ ] Page loads without console errors
+  [ ] Hero section content renders (headings, subtext, button)
+  [ ] No broken import warnings in terminal
+
+Feat-002 | Create pages folder and homePage files
+  [ ] src/website/pages/homePage/homePage.jsx exists
+  [ ] src/website/pages/homePage/homePage.scss exists
+  [ ] No import errors in console
+
+Feat-003 | homePage.jsx section composition
+  [ ] All six sections render in order: Nav, Hero, About, PriceList, Testimonials, ContactUs
+  [ ] Each section has correct scroll-target id (home, about, price-list, testimonials, contact-us)
+  [ ] Nav links scroll to correct sections
+  [ ] Background colours correct per section (grey main, white about, pink price-list, white contact-us)
+
+Feat-004 | Wire homePage into App.jsx
+  [ ] App.jsx renders only <HomePage /> — no direct section imports remain
+  [ ] Global styles (App.css) still apply — Imprima font visible on body text
+  [ ] No duplicate style loading
+
+---
+
+Feat-005 | SVG background decorations — dogPawsWave
+  [ ] Two dogPawsWave.svg instances visible: partially off left edge and right edge of hero
+  [ ] One dogPawsWave2.svg visible centred behind hero text
+  [ ] All three SVGs are greyscale (desaturated)
+  [ ] Left/right paws opacity ~0.15, centre paw opacity ~0.10 (subtle, text still readable)
+  [ ] SVGs do not intercept clicks (pointer-events: none)
+  [ ] Hero text content sits visually above the SVGs
+
+Feat-006 | Centre hero content
+  [ ] GAIL's TAIL's, DOG WALKER, subtext, and button are horizontally centred
+  [ ] "Get to know your dog walker" card is centred on the page
+  [ ] Paragraph text inside the bio card is centre-aligned
+
+Feat-007 | Heading / subtext / button spacing
+  [ ] Visible gap (~24px) between "DOG WALKER" h1 and the h2 subtext
+  [ ] Visible gap (~32px) between h2 subtext and the "Get in touch" button
+  [ ] No excessive or missing spacing between the three elements
+
+Feat-008 | Button style adjustments
+  [ ] "Get in touch" button has slight rounded corners (8px radius, not pill shape)
+  [ ] Button has comfortable vertical padding (14px top and bottom)
+  [ ] Button colour and font unchanged
+
+Feat-009 | Hero content left-align and bio layout updates
+  [ ] GAIL's TAIL's, DOG WALKER, subtext, and button are left-aligned (not centred)
+  [ ] Hero content block does not exceed 1000px width
+  [ ] Bio card paragraph text is left-aligned
+  [ ] Visible margin-bottom below the bio card (mb-20 / 80px)
+
+Feat-010 | Reposition dogPawsWave SVGs
+  [ ] Left paw visible within hero section, positioned below the button (not off left edge)
+  [ ] Right paw visible to the right of the bio card (not inside the hero section)
+  [ ] Right paw does not obscure bio card text
+  [ ] Both paws remain greyscale and decorative (pointer-events: none)
+
+Feat-011 | SVG paw depth and positioning refinement
+  [ ] Left paw appears to come from left edge of screen (partially off-screen)
+  [ ] Left paw sits visually behind the hero button/content (content overlaps paw)
+  [ ] Right paw appears to come from right edge of screen (partially off-screen)
+  [ ] Right paw sits visually behind the bio card (card overlaps paw)
+  [ ] Centre paw is noticeably smaller than before (approx half size)
+  [ ] Centre paw is shifted slightly right of the hero centre point
+
+---
+
+STOP AND TEST — all 11 features
+  [ ] Page loads cleanly, no console errors
+  [ ] Nav appears fixed at top; hero content below nav offset (pt-[88px])
+  [ ] Dog photo visible top-right on desktop, hidden on mobile (< 750px)
+  [ ] Hero headings/subtext/button left-aligned, max 1000px width
+  [ ] Left paw partially off-screen left, behind hero button at z-index 0
+  [ ] Centre paw smaller (200px), shifted right of hero centre
+  [ ] Right paw partially off-screen right, behind bio card
+  [ ] Bio card paragraph text left-aligned
+  [ ] Margin-bottom visible below bio card
+  [ ] All nav links scroll to correct sections
+  [ ] Hamburger menu works at mobile breakpoint (< 1016px)
+  [ ] No broken image paths
+  [ ] npm run build completes with no errors

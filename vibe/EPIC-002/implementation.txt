@@ -1,0 +1,330 @@
+EPIC-002 — Implementation Notes
+=================================
+Project: Gails Tails
+Read alongside: features.txt
+
+Context: EPIC-001 completed before this EPIC began. The project structure differs
+from what these notes originally assumed. All paths below reflect the actual
+post-EPIC-001 state.
+
+---
+
+Feat-001 | Rename Homepage → Hero
+  Step 1: Create the subfolder
+    src/components/hero/
+
+  Step 2: Move and rename the file
+    src/components/Homepage.jsx → src/components/hero/hero.jsx
+
+  Step 3: Inside hero.jsx update:
+    - Component function:  function Homepage()  →  const Hero = () =>
+    - Default export:      export default Homepage  →  export default Hero
+    - No SCSS import to update (Homepage.jsx has no companion .scss file)
+    - Verify asset src paths point to src/assets/images/ (images were moved
+      from src/assets/ during EPIC-001 work — confirm no broken paths)
+
+  Step 4: Update the import in App.jsx (temporary, until Feat-004):
+    - import Homepage from './components/Homepage'
+      → import Hero from './components/hero/hero'
+    - Update JSX: <Homepage /> → <Hero />
+
+  Additional: asset src paths updated from relative (./src/assets/...) to
+  absolute (/src/assets/...) to prevent path resolution issues from nested folders.
+
+  Engine components considered: None applicable — rename only, no logic change.
+  Files changed:
+    - CREATED: src/components/hero/hero.jsx
+    - DELETED: src/components/Homepage.jsx
+    - MODIFIED: src/App.jsx (import updated — temporary, replaced by Feat-004)
+
+  What was added (learning):
+    - Giving each component its own subfolder (hero/hero.jsx) keeps the components/
+      folder from becoming a flat list of files. Every component now has a home where
+      its SCSS and other assets can live alongside it.
+
+---
+
+Feat-002 | Create pages folder and homePage files
+  Folder to create:
+    src/website/pages/homePage/
+
+  This introduces the src/website/ top-level structure required by rules.txt.
+  Future pages (aboutPage, etc.) will follow the same pattern under src/website/pages/.
+
+  Files to create:
+    homePage.jsx  — composition page (see Feat-003)
+    homePage.scss — page-level styles (minimal wrapper styles to start)
+
+  Naming rules (per rules.txt):
+    - File/folder names: camelCase — homePage (capital P)
+    - Component function: PascalCase — const HomePage = () => {}
+    - Export: export default HomePage
+
+  Engine components considered:
+    - src/engine/websiteContext/websiteContext.jsx — considered; not used in this
+      EPIC. homePage is a layout compositor, not a stateful feature. State context
+      is a future concern.
+    - All other engine components — not applicable to page composition.
+
+  Files changed:
+    - CREATED: src/website/pages/homePage/homePage.jsx
+    - CREATED: src/website/pages/homePage/homePage.scss (imports colours token; minimal wrapper class)
+
+---
+
+Feat-003 | homePage.jsx composition
+  Import order inside homePage.jsx:
+
+    import Nav          from '../../../components/nav/nav'
+    import Hero         from '../../../components/hero/hero'
+    import AboutPage    from '../../../components/About'
+    import PriceList    from '../../../components/PriceList'
+    import Testimonials from '../../../components/testimonials'
+    import ContactUs    from '../../../components/contactUs/contactUs'
+    import './homePage.scss'
+    import '../../../App.css'
+
+  Component shape (following rules.txt file template):
+
+    const HomePage = () => {
+      return (
+        <>
+          <Nav />
+          <main className="bg-[#D9D9D9] pt-[88px]">
+            <div className="w-full max-w-[500px] min-[500px]:max-w-[1000px] mx-auto relative">
+              <div id="home" className="h-auto p-4 scroll-mt-[88px]">
+                <Hero />
+              </div>
+              <div id="about" className="h-auto bg-white p-4 text-gray-700 scroll-mt-[88px]">
+                <AboutPage />
+              </div>
+              <div id="price-list" className="h-auto bg-[#F38299] p-4 scroll-mt-[88px]">
+                <PriceList />
+              </div>
+              <div id="testimonials" className="h-auto p-4 scroll-mt-[88px]">
+                <Testimonials />
+              </div>
+              <div id="contact-us" className="h-auto bg-white scroll-mt-[88px]">
+                <ContactUs />
+              </div>
+            </div>
+          </main>
+        </>
+      )
+    }
+
+    export default HomePage
+
+  Note: layout classes (bg-[#D9D9D9], pt-[88px], scroll-mt etc.) are lifted
+  directly from the existing App.jsx — no visual change, just moved responsibility.
+
+  Scroll-target ids confirmed present:
+    id="home", id="about", id="price-list", id="testimonials", id="contact-us"
+
+  Engine components considered: None applicable — composition only.
+  Files changed:
+    - MODIFIED: src/website/pages/homePage/homePage.jsx
+
+  What was added (learning):
+    - A page composition file (homePage.jsx) is responsible only for assembling
+      sections in order with their layout wrappers. It does not own any logic —
+      each section component handles its own state and behaviour.
+    - This separation means adding or reordering sections only requires a change
+      in one file (homePage.jsx), not App.jsx.
+
+---
+
+Feat-004 | Wire into App.jsx
+  App.jsx after this feat:
+
+    import HomePage from './website/pages/homePage/homePage'
+    import './App.css'
+
+    function App() {
+      return <HomePage />
+    }
+
+    export default App
+
+  What is removed from App.jsx:
+    - import Nav
+    - import Homepage (now Hero, in homePage.jsx)
+    - import AboutPage
+    - import PriceList
+    - import Testimonials
+    - import ContactUs
+    - All JSX section markup (moves into homePage.jsx)
+
+  App.css import stays in App.jsx — it is the global CSS entry point.
+  If App.css is also needed inside homePage.jsx, import it there and remove
+  from App.jsx to avoid double-loading.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/App.jsx (stripped to shell, now renders only HomePage)
+
+  Tradeoffs / follow-up:
+    - The src/website/ folder structure is introduced here for the first time.
+      Existing components (About, PriceList, etc.) remain in src/components/ for
+      now — migrating them into src/website/ is a future EPIC.
+    - The Tailwind utility classes on section wrappers (bg-[...], scroll-mt-[...])
+      are hardcoded in homePage.jsx. These should move to homePage.scss using
+      CSS variables once the project is further along.
+
+  What was added (learning):
+    - App.jsx as a thin shell (render one component) is the standard pattern for
+      React apps that grow beyond a single page. It makes routing easy to add
+      later — a router wraps <HomePage /> without touching any section components.
+
+---
+
+Feat-005 | SVG background decorations
+  SVGs imported at the top of hero.jsx using Vite static imports:
+    import dogPawsWave  from '../../assets/images/dogPawsWave.svg'
+    import dogPawsWave2 from '../../assets/images/dogPawsWave2.svg'
+
+  JSX — three img tags placed before hero__content inside the hero section:
+    <img src={dogPawsWave}  className="hero__paws hero__paws--left"   alt="" aria-hidden="true" />
+    <img src={dogPawsWave}  className="hero__paws hero__paws--right"  alt="" aria-hidden="true" />
+    <img src={dogPawsWave2} className="hero__paws hero__paws--centre" alt="" aria-hidden="true" />
+
+  SCSS in hero.scss:
+    .hero__paws { position: absolute; pointer-events: none; user-select: none;
+      filter: grayscale(100%); opacity: 0.15; z-index: 0; }
+    .hero__paws--left   { left: -80px; top: 10%; width: 320px; transform: rotate(-25deg); }
+    .hero__paws--right  { right: -80px; top: 20%; width: 320px; transform: rotate(20deg); }
+    .hero__paws--centre { left: 50%; top: 50%; transform: translate(-50%,-50%) rotate(5deg);
+      width: 400px; opacity: 0.10; }
+
+  Note: overflow: hidden was intentionally NOT added to .hero — the dog photo
+  uses top-[-140px] and would be clipped. SVG bleed outside hero bounds is
+  acceptable given the decorative purpose.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/hero/hero.jsx (SVG imports + img tags added)
+    - MODIFIED: src/components/hero/hero.scss (.hero__paws rules added)
+
+---
+
+Feat-006 | Centre hero content
+  .hero__content in hero.scss:
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    position: relative; z-index: 1;
+
+  "Get to know your dog walker" bio section centred via:
+    - Outer section: flex justify-center (Tailwind) — centres the card horizontally
+    - Inner div: text-center (Tailwind) — centres the heading and paragraph text
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/hero/hero.scss (.hero__content display/align rules added)
+    - MODIFIED: src/components/hero/hero.jsx (flex justify-center on bio section)
+
+---
+
+Feat-007 | Heading / subtext / button spacing
+  Tailwind utility classes in hero.jsx:
+    - Second h1 ("DOG WALKER"): mb-6  → 24px bottom margin to h2
+    - h2 ("Your local best friend walker"): mb-8  → 32px bottom margin to button
+    - Button: no margin class needed — spacing driven entirely by h2 mb-8
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/hero/hero.jsx (mb-6 on second h1, mb-8 on h2)
+
+---
+
+Feat-008 | Button style adjustments
+  Tailwind classes updated on the hero CTA button in hero.jsx:
+    - Border radius: rounded-3xl → rounded-[8px]
+    - Vertical padding: py-2 → py-[14px]
+    - Unchanged: bg-[#F38299], hover:not-focus:bg-[#fab0b9], px-4, w-1/3, font-bold
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/hero/hero.jsx (button class rounded-[8px] py-[14px])
+
+---
+
+Feat-009 | Hero content left-align and bio layout updates
+  hero.scss changes to .hero__content:
+    - Removed: align-items: center
+    - Removed: text-align: center
+    - Added: max-width: 1000px
+
+  hero.jsx bio section changes:
+    - Removed: text-center Tailwind class from inner bio card div
+    - Added: mb-20 to bio section for margin-bottom spacing
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/hero/hero.scss (.hero__content left-align, max-width)
+    - MODIFIED: src/components/hero/hero.jsx (bio card text-center removed, mb-20 added)
+
+---
+
+Feat-010 | Reposition dogPawsWave SVGs
+  Left paw repositioned within hero section:
+    Old: left: -80px; top: 10%; (partially off-screen, upper-left)
+    New: left: 0; top: 68%; (visible, below button area)
+
+  Right paw moved out of hero section into bio section:
+    - Removed from: <section className="hero w-full"> img list
+    - Added to: bio section as first child (before the card div)
+    - Bio section class updated: added hero__bio (position: relative in SCSS)
+      so the paw is absolutely positioned relative to the bio section
+    Old SCSS: right: -80px; top: 20%; transform: rotate(20deg)
+    New SCSS: right: -60px; top: 50%; transform: translateY(-50%) rotate(20deg)
+      (vertically centred beside the bio card)
+
+  New .hero__bio class added to hero.scss:
+    position: relative; overflow: visible;
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/hero/hero.jsx (right paw moved to bio section, hero__bio class added)
+    - MODIFIED: src/components/hero/hero.scss (.hero__paws--left and --right repositioned, .hero__bio added)
+
+---
+
+Feat-011 | SVG paw depth and positioning refinement
+  Left paw (hero__paws--left) — behind button, coming from left:
+    SCSS: left: -100px; top: 55%; width: 350px; transform: rotate(-20deg);
+    - Partially off left screen edge (left: -100px)
+    - Vertically at button level (top: 55% of hero section height)
+    - Sits behind hero__content at z-index: 0 (content is z-index: 1)
+    - No JSX change needed — paw remains inside the hero section
+
+  Right paw (hero__paws--right) — behind bio card, coming from right:
+    SCSS: right: -100px; top: 50%; width: 350px; transform: translateY(-50%) rotate(20deg);
+    - Partially off right screen edge (right: -100px)
+    - Vertically centred in bio section (top: 50% + translateY(-50%))
+    - Bio card div gains Tailwind classes relative z-[1] so it sits in front of the paw
+    JSX change: bio card div updated from
+      className="bg-white ..."
+      → className="relative z-[1] bg-white ..."
+
+  Centre paw (hero__paws--centre) — smaller, shifted right:
+    SCSS: left: 60%; top: 50%; transform: translate(-50%, -50%) rotate(5deg); width: 200px;
+    - Width halved: 400px → 200px
+    - Shifted 10% right of centre: left: 50% → left: 60%
+    - transform translate(-50%, -50%) still centres the image on the left: 60% point
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/hero/hero.scss (all three paw positions and centre paw width updated)
+    - MODIFIED: src/components/hero/hero.jsx (bio card div gets relative z-[1])
+
+---
+
+General notes (actual implementation)
+  - hero.scss was created this EPIC — did not exist before Feat-005
+  - All hero styles live in hero.scss; App.css retains only :root font declaration
+  - SVG imports use Vite static import syntax — resolved at build time
+  - aria-hidden="true" on all three decorative paw img tags
+  - z-index layering: paws z-index 0 (SCSS), dog photo z-[1] (Tailwind), hero content z-index 1 (SCSS),
+    bio card z-[1] (Tailwind — needed to sit above right paw)
+  - Dog photo src kept as relative path ./src/assets/images/ per user preference
+  - overflow: hidden deliberately omitted from .hero and .hero__bio — dog photo and paws bleed intentionally
+

@@ -1,4 +1,5 @@
 import { FaCheck, FaMedal, FaPaw } from "react-icons/fa";
+import './about.scss'
 
 export default function AboutPage() {
 
@@ -19,12 +20,12 @@ export default function AboutPage() {
 
   return (
     <>
-      <section>
+      <section className="about max-w-[500px] min-[500px]:max-w-[1000px] w-full mx-auto">
         <h1 className="text-4xl">About</h1>
-        <section className="grid grid-cols-2">
-          <div className="flex flex-col items-left">
-            <h2 className="text-2xl">About Gail's Tail's</h2>
-            <p>
+        <section className="about__grid grid grid-cols-2">
+          <div className="flex flex-col items-left justify-center">
+            <h2 className="text-2xl pb-5 ">About Gail's Tail's</h2>
+            <p className="pr-10">
               As an experienced dog walker with over five years of caring for
               pups of all sizes and temperaments, I know that every dog has its
               own personality—and pace. Whether it's a high-energy husky who
@@ -35,20 +36,26 @@ export default function AboutPage() {
               dog, contact us here and we will endeavour to work with you.
             </p>
           </div>
+          <img
+            src="./src/assets/images/terrier.jpg"
+            alt="doggy"
+            className="dog-image-about-one rounded-4xl border-[25px] border-[#D5BE9F]"
+          />
           <div className="flex items-center">
-            <img src="./src/assets/images/terrier.jpg" alt="" />
+            <img
+              src="./src/assets/images/dog-walk.jpg"
+              alt="doggy"
+              className="dog-image-about-two rounded-4xl border-[25px] border-[#D5BE9F]"
+            />
           </div>
-          <div className="flex items-center">
-            <img src="./src/assets/images/dog-walk.jpg" alt="" />
-          </div>
-          <div className="p-4">
+          <div className="p-4 ml-4 mobile-certified">
             <div>
-              <h2>Certified</h2>
+              <h2 className="text-2xl pb-5">Certified</h2>
             </div>
             <div className="flex flex-col">
               {certs.map((cert) => (
                 <div key={cert.key} className="flex items-center gap-3 pt-4">
-                  <span className="text-5">{cert.icon}</span>
+                  <span className="scale-80">{cert.icon}</span>
                   {cert.text}
                 </div>
               ))}

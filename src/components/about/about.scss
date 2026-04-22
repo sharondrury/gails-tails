@@ -1,0 +1,34 @@
+$about-breakpoint: 850px;
+
+.dog-image-about-one {
+  width: 500px;
+  height: 285px;
+  object-fit: cover;
+  object-position: -20% 0;
+}
+
+.dog-image-about-two {
+  width: 500px;
+  height: 285px;
+  object-fit: cover;
+  object-position: -20% 0;
+}
+
+@media only screen and (max-width: $about-breakpoint) {
+.about__grid {
+    grid-template-columns: 1fr;
+  }
+  .about {
+      img {
+        display: none;
+      }
+    }
+
+.mobile-certified {
+  margin-left: 0;
+  padding-left: 0;
+}
+}
+
+@media only screen and (max-width: $about-breakpoint) {
+}

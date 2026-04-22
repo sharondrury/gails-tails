@@ -1,0 +1,78 @@
+@use '../../assets/scss/ui/colours';
+
+$hero-breakpoint: 750px;
+
+.hero {
+  position: relative;
+
+  @media only screen and (max-width: $hero-breakpoint) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.hero__paws {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  filter: grayscale(100%);
+  opacity: 0.15;
+  z-index: 0;
+
+  &--left {
+    left: -200px;
+    top: 135%;
+    width: 350px;
+    transform: rotate(-50deg);
+  }
+
+  &--right {
+    right: -200px;
+    top: 70%;
+    width: 350px;
+    transform: translateY(-50%) rotate(20deg);
+  }
+
+  &--centre {
+    left: 60%;
+    top: 100%;
+    transform: translate(-50%, -50%) rotate(5deg);
+    width: 200px;
+    opacity: 0.10;
+  }
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+
+  @media only screen and (max-width: $hero-breakpoint) {
+    width: 100%;
+  }
+}
+
+.hero__bio {
+  position: relative;
+  overflow: visible;
+}
+
+.hero-heading {
+  font-family: "Corben", serif;
+}
+
+.dog-image-top-right {
+  transform: rotate(-10deg);
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+  object-position: -20% 0;
+
+  @media only screen and (max-width: $hero-breakpoint) {
+    display: none;
+  }
+}

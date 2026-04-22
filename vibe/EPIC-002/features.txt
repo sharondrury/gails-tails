@@ -1,0 +1,129 @@
+EPIC-002 — Project Restructure: Hero + HomePage
+================================================
+Project: Gails Tails
+
+Current state (post-EPIC-001):
+  - All components live in src/components/ (no website/ folder yet)
+  - src/components/Homepage.jsx — flat file, no subfolder, function named Homepage
+  - src/components/About.jsx, PriceList.jsx, testimonials.jsx — all built
+  - src/components/contactUs/contactUs.jsx — built
+  - src/components/nav/nav.jsx — built (EPIC-001)
+  - src/App.jsx — acts as composition layer, renders Nav + all sections directly
+  - src/assets/images/ — images moved here (was src/assets/)
+
+---
+
+Feat-001 | Rename Homepage component to Hero
+  - Current file: src/components/Homepage.jsx (flat, no subfolder)
+  - Create subfolder: src/components/hero/
+  - Move and rename file: Homepage.jsx → src/components/hero/hero.jsx
+  - Inside hero.jsx:
+      - Update component function name: Homepage → Hero
+      - Update default export: export default Hero
+      - Update scss import if one exists (none currently — no action needed)
+      - Confirm asset paths reference src/assets/images/ (already moved)
+  - Update the import in App.jsx from:
+      import Homepage from './components/Homepage'
+      → import Hero from './components/hero/hero'
+    (temporary — Feat-004 will move this import into homePage.jsx)
+  Status: done
+
+Feat-002 | Create pages folder and homePage files
+  - Create folder:  src/website/pages/homePage/
+    (introduces the src/website/ structure per rules.txt folder rules)
+  - Create file:    src/website/pages/homePage/homePage.jsx
+  - Create file:    src/website/pages/homePage/homePage.scss
+  - homePage.jsx is the top-level page composition file — imports and renders
+    all sections in document order
+  - homePage.scss holds page-level wrapper styles (can be minimal to start)
+  Status: done
+
+Feat-003 | homePage.jsx section composition
+  - homePage.jsx imports and renders all existing sections in document order:
+      1. Nav          (src/components/nav/nav.jsx — EPIC-001)
+      2. Hero         (src/components/hero/hero.jsx — Feat-001 this EPIC)
+      3. About        (src/components/About.jsx — EPIC-001)
+      4. PriceList    (src/components/PriceList.jsx — EPIC-001)
+      5. Testimonials (src/components/testimonials.jsx — EPIC-001)
+      6. ContactUs    (src/components/contactUs/contactUs.jsx — EPIC-001)
+  - Page wrapper and section layout classes are lifted from App.jsx as-is:
+      bg-[#D9D9D9], pt-[88px], scroll-mt-[88px] per section, etc.
+  - Each section retains its scroll-target id:
+      id="home", id="about", id="price-list", id="testimonials", id="contact-us"
+  - Import homePage.scss for any page-level overrides
+  Status: done
+
+Feat-004 | Wire homePage into App.jsx
+  - App.jsx imports and renders only homePage.jsx
+  - All direct imports of Nav, Hero, About, PriceList, Testimonials, ContactUs
+    are removed from App.jsx — they belong in homePage.jsx
+  - Resulting App.jsx:
+      import HomePage from './website/pages/homePage/homePage'
+      function App() { return <HomePage /> }
+      export default App
+  - App.css import stays in App.jsx (global styles)
+  Status: done
+
+---
+Feat-005 | SVG background decorations — dogPawsWave
+  - Source files:
+      src/assets/images/dogPawsWave.svg
+      src/assets/images/dogPawsWave2.svg
+  - dogPawsWave.svg: placed twice — far left edge (rotate -25deg) and far right
+    edge (rotate 20deg), each partially off-screen.
+  - dogPawsWave2.svg: placed once centred behind text content (translate -50%,-50%,
+    rotate 5deg).
+  - All three: filter: grayscale(100%), opacity 0.15 (centre 0.10), position: absolute,
+    pointer-events: none, z-index: 0
+  - Hero section: position: relative via .hero class in hero.scss
+  Status: done
+
+Feat-006 | Centre hero content
+  - .hero__content: display flex, flex-direction column, align-items center,
+    text-align center — centres heading, subtext, and button horizontally
+  - "Get to know your dog walker" section: text-center Tailwind class added to wrapper
+  - Vertical stacking order unchanged
+  Status: done
+
+Feat-007 | Heading / subtext / button spacing
+  - Second h1 ("DOG WALKER"): mb-6 (24px gap to h2)
+  - h2 ("Your local best friend walker"): mb-8 (32px gap to button)
+  - Button: my-3 removed — spacing now fully controlled by h2 margin-bottom
+  Status: done
+
+Feat-008 | Button style adjustments
+  - Border-radius: rounded-3xl → rounded-[8px]
+  - Vertical padding: py-2 → py-[14px]
+  - No colour or font changes
+  Status: done
+
+---
+Feat-009 | Hero content left-align and bio layout updates
+  - hero__content: left-aligned (remove align-items: center and text-align: center)
+  - hero__content: max-width 1000px to constrain the text block
+  - Bio card ("Get to know your dog walker"): paragraph left-aligned (remove text-center)
+  - Bio section: mb-20 margin-bottom to add spacing below
+  Status: done
+
+Feat-010 | Reposition dogPawsWave SVGs
+  - Left paw (hero__paws--left): removed from hero section, moved into bio section
+    positioned right: -60px, top: 50% (vertically centred beside the bio card)
+  - Bio section gains position: relative via .hero__bio class to contain the right paw
+  Status: done
+
+Feat-011 | SVG paw depth and positioning refinement
+  - Left paw: left: -100px (partially off left screen edge), top: 55% (button height),
+    sits behind hero__content (z-index 0 vs content z-index 1), coming from left
+  - Right paw: right: -100px (partially off right screen edge), top: 50%, behind bio card;
+    bio card gets relative z-[1] so card sits in front of the paw
+  - Centre paw (dogPawsWave2): width reduced 50% (400px → 200px),
+    offset 10% right of hero centre (left: 60% from left: 50%)
+  Status: done
+
+---
+STOP AND TEST when all 11 features are marked done.
+Verify: page loads, Nav appears, Hero content appears, no broken imports.
+Left paw comes from left edge and hides under button content.
+Right paw comes from right edge and hides behind bio card.
+Centre paw smaller and shifted right of centre.
+Bio paragraph left-aligned, bio margin-bottom visible.
