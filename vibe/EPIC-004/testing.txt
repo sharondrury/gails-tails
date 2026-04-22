@@ -1,0 +1,57 @@
+EPIC-004 — Testing Checklist
+==============================
+Project: Gails Tails
+Read alongside: features.txt, implementation.txt
+
+---
+
+Feat-001 | Section heading
+  [ ] "Price lists" heading is horizontally centred above the price list content
+  [ ] Heading font size is visibly larger than before (36px)
+  [ ] Visible padding below the heading before the card/accordion begins
+  Test status: not started
+
+Feat-002 | Accordion trigger — desktop unchanged, mobile below 850px
+  Desktop (viewport > 850px):
+  [ ] Three tab buttons visible (Dog walking, Dog boarding, Pet sitting)
+  [ ] Clicking a tab shows that service's content in the panel below
+  [ ] Accordion markup is not visible at desktop width
+  Mobile (viewport <= 850px):
+  [ ] Tab buttons are not visible
+  [ ] Three accordion rows are visible, each showing heading and subheading only
+  [ ] Full content is not visible in collapsed state
+  Test status: not started
+
+Feat-003 | Accordion toggle icon — paw print / X
+  [ ] Each closed accordion row shows a paw print icon on the right
+  [ ] After opening a row, the icon changes to an X
+  [ ] After closing the row, the icon reverts to a paw print
+  [ ] Icon is the brand pink colour (not default black)
+  [ ] Tapping the icon opens/closes the row (not just the text area)
+  Test status: not started
+
+Feat-004 | One open at a time (accordion exclusivity)
+  [ ] Opening row 1, then tapping row 2 — row 1 closes, row 2 opens
+  [ ] Tapping an already-open row closes it (all rows closed)
+  [ ] At no point are two rows open simultaneously
+  Test status: not started
+
+Feat-005 | Accordion expanded content
+  [ ] Tapping a closed row reveals the full description text below the header
+  [ ] The reveal is animated (content slides down, not an instant jump)
+  [ ] Closing a row animates the content back up smoothly
+  [ ] Expanded content is readable (white text, adequate padding)
+  Test status: not started
+
+---
+
+STOP AND TEST — all 5 features
+  [ ] npm run lint — passes with no errors
+  [ ] npm run build — passes with no errors
+  [ ] Desktop (> 850px): tab layout visible, accordion hidden, tabs function correctly
+  [ ] Mobile (<= 850px): tab layout hidden, accordion visible
+  [ ] All three accordion items open/close correctly with correct icons
+  [ ] Only one accordion item open at a time
+  [ ] Smooth expand/collapse animation on all items
+  [ ] Heading centred at both desktop and mobile widths
+  [ ] No console errors at any viewport width

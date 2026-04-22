@@ -1,0 +1,165 @@
+EPIC-004 — Implementation Notes
+=================================
+Project: Gails Tails
+Read alongside: features.txt
+
+---
+
+Feat-001 | Section heading
+  Applied via .price-list__heading class in PriceList.scss:
+    font-size: 36px
+    font-weight: bold
+    text-align: center
+    padding-bottom: 24px
+    color: white
+
+  Heading element in PriceList.jsx updated from Tailwind utility classes to
+  the SCSS class: <h1 className="price-list__heading">Price lists</h1>
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/PriceList.jsx (heading class updated)
+    - CREATED:  src/components/PriceList.scss (.price-list__heading rule)
+
+---
+
+Feat-002 | Accordion layout — mobile only
+  Two separate markup sections in PriceList.jsx:
+
+  .price-list__desktop — wraps the existing tab layout
+    Shown above 850px (default display: block)
+    Hidden below 850px via SCSS media query (display: none)
+
+  .price-list__mobile — wraps the new accordion layout
+    Hidden above 850px (default display: none)
+    Shown below 850px via SCSS media query (display: block)
+
+  Data consolidation: infoData object and buttons array merged into a single
+  items array. Each item has: key, heading, subheading, content.
+  Subheading is a short descriptor shown in the collapsed accordion header.
+
+  Desktop tab layout preserved exactly — only wrapped in .price-list__desktop div.
+  key prop added to .price-list__fade div (keyed on activeButton) to re-trigger
+  the fade animation on tab change.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/PriceList.jsx (data consolidated, desktop wrapped,
+      mobile accordion markup added)
+    - MODIFIED: src/components/PriceList.scss (desktop/mobile show/hide rules,
+      full accordion SCSS at 850px breakpoint)
+
+  What was added (learning):
+    - Two sibling layout sections (desktop + mobile), shown/hidden by CSS, is
+      a clean pattern for breakpoint-driven layout switches. No JS media query
+      detection needed — CSS handles the visibility, React handles the state.
+
+---
+
+Feat-003 | Toggle icons — paw print and X
+  FaPaw and FaTimes imported from react-icons/fa (both already available in project).
+  Icon rendered conditionally inside .price-list__item-icon span:
+    activeIndex === i ? <FaTimes /> : <FaPaw />
+
+  Icon colour uses existing CSS token: var(--nav-link-hover) — brand pink #F38299.
+  Icon styled in PriceList.scss:
+    font-size: 18px; flex-shrink: 0; margin-left: 16px;
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/PriceList.jsx (FaTimes import, conditional icon render)
+    - MODIFIED: src/components/PriceList.scss (.price-list__item-icon styles)
+
+---
+
+Feat-004 | One open at a time
+  State added to PriceList component:
+    const [activeIndex, setActiveIndex] = useState(null)
+
+    const handleAccordionToggle = (i) => {
+      setActiveIndex((prev) => (prev === i ? null : i))
+    }
+
+  Toggle function: if tapping already-open item → closes it (null).
+  If tapping a different item → closes previous, opens new one.
+  Single state value ensures exclusivity automatically.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/PriceList.jsx (activeIndex state, handleAccordionToggle)
+
+---
+
+Feat-005 | Smooth expand/collapse transition
+  CSS max-height + opacity transition in PriceList.scss:
+
+  .price-list__item-body (collapsed default):
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+
+  .price-list__item--open .price-list__item-body (expanded):
+    max-height: 600px; opacity: 1;
+
+  The --open modifier class is applied in JSX:
+    className={`price-list__item${activeIndex === i ? " price-list__item--open" : ""}`}
+
+  Also: inline <style jsx> animation from the original component removed and
+  moved to PriceList.scss as @keyframes priceListFadeIn on .price-list__fade.
+  Renamed from fadeIn to priceListFadeIn to avoid collision with global keyframes.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/PriceList.jsx (--open class, removed inline style tag)
+    - MODIFIED: src/components/PriceList.scss (max-height transition, keyframes moved)
+
+---
+
+Feat-006 | Accordion item card styling and icon refinement
+  Icon changes:
+    Closed state: FaPaw (react-icon) replaced with local SVG as <img>
+      import pawSvg from '../assets/images/paw-solid-full.svg'
+      <img src={pawSvg} className="price-list__item-paw" alt="" aria-hidden="true" />
+      Sized via .price-list__item-paw { width: 22px; height: 22px; }
+
+    Open state: FaTimes (react-icon, was not rendering reliably) replaced with
+      HTML entity span: <span className="price-list__item-x">&#x2715;</span>
+      Styled: font-size: 22px; font-weight: bold; color: var(--nav-link-hover);
+      FaTimes import removed. FaPaw kept — still used in desktop tab buttons.
+
+  Card styling on .price-list__item (inside media query):
+    background-color: white
+    border-radius: 8px
+    border: 2px solid lightgrey
+    padding: 0 16px       (horizontal padding; header/body provide vertical)
+
+  Spacing between cards:
+    .price-list__mobile changed from display: block to display: flex / flex-direction: column
+    gap: 50px — adds 50px between cards without trailing margin on last card
+
+  Text colour tokens added to src/assets/scss/ui/colours.scss:
+    --text-primary: #333333
+    --text-secondary: #666666
+  These are used in:
+    .price-list__item-heading    → var(--text-primary)
+    .price-list__item-subheading → var(--text-secondary)
+    .price-list__item-content    → var(--text-primary)
+  Previously these were white (correct on pink section bg, wrong on white card bg).
+
+  Old border-bottom / border-top rules on .price-list__item removed — replaced by
+  the card border which is visible on all four sides.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/PriceList.jsx (pawSvg import, icon JSX updated)
+    - MODIFIED: src/components/PriceList.scss (card styles, gap, text tokens, icon rules)
+    - MODIFIED: src/assets/scss/ui/colours.scss (--text-primary, --text-secondary added)
+
+---
+
+General notes (actual implementation)
+  - PriceList.scss created this EPIC — did not exist before
+  - $price-list-breakpoint: 850px matches the about section breakpoint
+  - max-height: 600px on expanded items — sufficient for current content lengths
+  - No engine components exist in this project (src/engine/ is empty)
+  - Component function converted from export default function PriceList()
+    to const PriceList = () => {} per rules.txt file template convention

@@ -1,0 +1,60 @@
+EPIC-004 — Price List Mobile Accordion
+========================================
+Project: Gails Tails
+Component: src/components/PriceList.jsx
+
+---
+
+Feat-001 | Section heading — centre, size, padding
+  - The Price List section heading must be horizontally centred
+  - Font size: 36px
+  - Add padding-bottom to the heading (suggested starting point: 24px — adjust
+    to match site visual rhythm)
+  Status: done
+
+Feat-002 | Accordion trigger — desktop unchanged, mobile below 850px
+  - Below 850px viewport width the price list cards/items switch to an accordion
+    (dropdown) layout
+  - Above 850px the existing desktop layout is completely unchanged
+  - Each accordion item shows two things in its collapsed (closed) state:
+      1. The item heading
+      2. The item subheading (short descriptor / price tier label)
+  - Everything else (full description, prices, details) is hidden until expanded
+  Status: done
+
+Feat-003 | Accordion toggle icon — paw print / X
+  - When an item is CLOSED: show a paw print icon on the right of the item header
+  - When an item is OPEN: show an X icon on the right of the item header
+  - Icons are tappable and trigger the open/close toggle
+  - Paw print: FaPaw from react-icons/fa (already in project)
+  - X: FaTimes from react-icons/fa
+  Status: done
+
+Feat-004 | One open at a time (accordion exclusivity)
+  - Only one price list item can be open at a time
+  - Opening a new item automatically closes the previously open one
+  - Managed via a single activeIndex state (null when all closed)
+  Status: done
+
+Feat-005 | Accordion expanded content
+  - When an item is opened, the full item content is revealed below the header row
+  - Expanded content: full description paragraph
+  - Smooth open/close transition via CSS max-height + opacity transition
+  Status: done
+
+Feat-006 | Accordion item card styling and icon refinement
+  - Closed icon: local SVG paw-solid-full.svg (was FaPaw react-icon)
+  - Open icon: HTML entity &#x2715; styled span (was FaTimes — not rendering reliably)
+  - Each accordion item: white background, border-radius 8px, border 2px solid lightgrey
+  - Spacing between items: 50px gap (flex gap on .price-list__mobile container)
+  - Text colours updated from white to dark tokens (--text-primary, --text-secondary)
+    since card background is now white
+  - New colour tokens added to colours.scss: --text-primary (#333333), --text-secondary (#666666)
+  Status: done
+
+---
+STOP AND TEST when all 6 features are marked done.
+Verify: desktop layout unchanged above 850px. Below 850px: items show heading
+and subheading only, paw SVG icon visible. Tapping opens item with X icon and
+full content. Tapping another item closes the first and opens the new one.
+Each card has white background, grey border, rounded corners, 50px spacing.

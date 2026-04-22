@@ -1,0 +1,118 @@
+@use '../assets/scss/ui/colours';
+
+$price-list-breakpoint: 850px;
+
+.price-list__heading {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 24px;
+  color: white;
+}
+
+// Fade animation for desktop tab content
+.price-list__fade {
+  animation: priceListFadeIn 0.3s ease-out;
+}
+
+@keyframes priceListFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mobile accordion — hidden on desktop
+.price-list__mobile {
+  display: none;
+}
+
+@media only screen and (max-width: $price-list-breakpoint) {
+  // Hide desktop tab layout on mobile
+  .price-list__desktop {
+    display: none;
+  }
+
+  // Show accordion — flex column with 50px gap between cards
+  .price-list__mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .price-list__item {
+    background-color: white;
+    border-radius: 8px;
+    border: 2px solid lightgrey;
+    padding: 0 16px;
+  }
+
+  .price-list__item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 16px 0;
+  }
+
+  .price-list__item-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .price-list__item-heading {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .price-list__item-subheading {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .price-list__item-icon {
+    flex-shrink: 0;
+    margin-left: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .price-list__item-paw {
+    width: 22px;
+    height: 22px;
+  }
+
+  .price-list__item-x {
+    font-size: 22px;
+    font-weight: bold;
+    color: black;
+    line-height: 1;
+  }
+
+  .price-list__item-body {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+  }
+
+  .price-list__item--open .price-list__item-body {
+    max-height: 600px;
+    opacity: 1;
+  }
+
+  .price-list__item-content {
+    padding: 16px 0;
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+}
