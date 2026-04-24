@@ -50,7 +50,7 @@ export default function AboutPage() {
           </div>
           <div className="p-4 ml-4 mobile-certified">
             <div>
-              <h2 className="text-2xl pb-5">Certified</h2>
+              <h2 className="text-2xl">Certified</h2>
             </div>
             <div className="flex flex-col">
               {certs.map((cert) => (
