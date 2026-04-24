@@ -2,6 +2,35 @@
 
 $price-list-breakpoint: 850px;
 
+.price-list__wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.price-list__content {
+  position: relative;
+  z-index: 1;
+}
+
+.price-list__paw {
+  position: absolute;
+  filter: brightness(0) invert(1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.price-list__paw--left {
+  transform: rotate(40deg);
+  top: 40%;
+  width: 250px;
+}
+
+.price-list__paw--right {
+  right: -80px;
+  top: 50%;
+  width: 400px;
+}
+
 .price-list__heading {
   font-size: 36px;
   font-weight: bold;

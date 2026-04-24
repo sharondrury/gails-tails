@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaPaw } from "react-icons/fa";
 import pawSvg from '../assets/images/paw-solid-full.svg';
+import pawsWave2Svg from '../assets/images/dogPawsWave2.svg';
+import pawsWaveSvg from '../assets/images/dogPawsWave.svg';
 import './PriceList.scss'
 
 const items = [
@@ -136,7 +138,10 @@ const PriceList = () => {
   const activeItem = items.find((item) => item.key === activeButton);
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    <div className="price-list__wrapper">
+      <img src={pawsWave2Svg} className="price-list__paw price-list__paw--left" alt="" aria-hidden="true" />
+      <img src={pawsWaveSvg} className="price-list__paw price-list__paw--right" alt="" aria-hidden="true" />
+      <div className="price-list__content max-w-5xl mx-auto p-6">
       <h1 className="price-list__heading">Price list</h1>
 
       {/* Desktop tab layout — hidden below 850px via SCSS */}
@@ -221,6 +226,7 @@ const PriceList = () => {
             </div>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );

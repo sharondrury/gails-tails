@@ -46,7 +46,7 @@ const HomePage = () => {
           </div>
           <div
             id="price-list"
-            className="h-auto bg-[#F38299] p-8 scroll-mt-[88px]"
+            className="h-auto bg-[#F38299] py-8 scroll-mt-[88px]"
           >
             <PriceList />
           </div>
