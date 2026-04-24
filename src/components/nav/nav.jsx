@@ -1,3 +1,4 @@
+import CompanyLogo from '../../assets/images/logoOther.svg'
 import { useState, useEffect, useRef } from 'react'
 import './nav.scss'
 
@@ -46,7 +47,7 @@ const Nav = () => {
   return (
     <nav ref={navRef} className={`nav${navVisible ? '' : ' nav--hidden'}`}>
       <a href="#home" className="nav__logo">
-        <img src="./src/assets/images/logoOther.svg" alt="Gail's Tails logo" />
+        <img src={CompanyLogo} alt="Gail's Tails logo" />
       </a>
       <div className="nav__inner">
         <button

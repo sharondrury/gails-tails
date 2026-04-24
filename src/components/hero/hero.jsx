@@ -1,5 +1,6 @@
 import dogPawsWave  from '../../assets/images/dogPawsWave.svg'
 import dogPawsWave2 from '../../assets/images/dogPawsWave2.svg'
+import goldenRetrieverImage from "../../assets/images/Golden-Retriever.jpg";
 import './hero.scss'
 
 const LINKS = [
@@ -32,7 +33,7 @@ const handleNavClick = (target) => {
         {/* Dog photo — sits above SVGs */}
         <div className="absolute top-[-140px] right-[-90px] z-[1]">
           <img
-            src="./src/assets/images/Golden-Retriever.jpg"
+            src={goldenRetrieverImage}
             alt="doggy"
             className="dog-image-top-right rounded-4xl border-[25px] border-[#D5BE9F]"
           />

@@ -1,5 +1,7 @@
 import { FaCheck, FaMedal, FaPaw } from "react-icons/fa";
 import './about.scss'
+import terrierImage from "../../assets/images/terrier.jpg";
+import dogWalkImage from "../../assets/images/dog-walk.jpg";
 
 export default function AboutPage() {
 
@@ -37,13 +39,13 @@ export default function AboutPage() {
             </p>
           </div>
           <img
-            src="./src/assets/images/terrier.jpg"
+            src={terrierImage}
             alt="doggy"
             className="dog-image-about-one rounded-4xl border-[25px] border-[#D5BE9F]"
           />
           <div className="flex items-center">
             <img
-              src="./src/assets/images/dog-walk.jpg"
+              src={dogWalkImage}
               alt="doggy"
               className="dog-image-about-two rounded-4xl border-[25px] border-[#D5BE9F]"
             />
