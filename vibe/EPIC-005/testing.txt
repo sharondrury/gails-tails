@@ -1,0 +1,59 @@
+EPIC-005 — Testing Checklist
+==============================
+Project: Gails Tails
+Read alongside: features.txt, implementation.txt
+
+---
+
+Feat-001 | Section heading
+  [ ] "My clients" heading is visible above the carousel
+  [ ] Heading is left-aligned (not centred)
+  [ ] Font size matches the About and Price List section headings (visually consistent)
+  Test status: not started
+
+Feat-002 | Section background
+  [ ] Testimonials section has a white background
+  [ ] White background is visible against the surrounding page sections
+  Test status: not started
+
+Feat-003 | Card layout — image left third, text right two-thirds
+  [ ] Each card shows an image filling the left third of the card
+  [ ] Image covers its column fully without distortion (object-fit: cover)
+  [ ] Right two-thirds contains the text content
+  [ ] Two-column layout is maintained regardless of content length
+  Test status: not started
+
+Feat-004 | Card text — quote and attribution
+  [ ] Testimonial quote text is visible in the right column, left-aligned
+  [ ] Quote text is italicised
+  [ ] Attribution line (name & dog name) appears below the quote
+  [ ] Attribution is visually distinct from quote (smaller, different weight)
+  Test status: not started
+
+Feat-005 | Fix carousel index
+  [ ] Clicking the next arrow advances exactly one testimonial at a time
+  [ ] Clicking the previous arrow goes back exactly one testimonial at a time
+  [ ] All 4 testimonials are reachable in sequence (no items skipped)
+  [ ] Clicking next on the last item wraps to the first (circular)
+  [ ] Clicking previous on the first item wraps to the last (circular)
+  Test status: not started
+
+Feat-006 | Arrow size — 300%
+  [ ] Left and right arrows are visibly larger than typical icon size
+  [ ] Arrows are the brand pink colour
+  [ ] Arrows are vertically centred beside the card
+  [ ] Both arrows are clickable and trigger navigation
+  Test status: not started
+
+---
+
+STOP AND TEST — all 6 features
+  [ ] npm run lint — passes with no errors
+  [ ] npm run build — passes with no errors
+  [ ] White background visible on testimonials section
+  [ ] "My clients" heading left-aligned above carousel
+  [ ] Card image fills left third, text fills right two-thirds
+  [ ] Quote italic, attribution smaller/bolder below quote
+  [ ] All 4 testimonials cycle one at a time with no skipping
+  [ ] Large pink arrows visible and functional on both sides
+  [ ] No console errors

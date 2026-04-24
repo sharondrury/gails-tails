@@ -1,0 +1,143 @@
+EPIC-005 — Implementation Notes
+=================================
+Project: Gails Tails
+Read alongside: features.txt
+
+---
+
+Feat-001 | Section heading
+  Added above the Carousel component in testimonials.jsx:
+    <h2 className="testimonials__heading">My clients</h2>
+
+  In testimonials.scss:
+    .testimonials__heading { font-size: 36px; font-weight: bold; text-align: left; margin-bottom: 24px; }
+
+  36px matches: About <h1 className="text-4xl"> (Tailwind text-4xl = 36px)
+  and PriceList .price-list__heading { font-size: 36px }.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/testimonials/testimonials.jsx (h2 added)
+    - MODIFIED: src/components/testimonials/testimonials.scss (.testimonials__heading rule)
+
+---
+
+Feat-002 | White background
+  .testimonials wrapper in testimonials.scss:
+    background-color: white; padding: 48px 0;
+
+  testimonials.jsx outer div updated from className="card" to className="testimonials".
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/testimonials/testimonials.jsx (outer div class)
+    - MODIFIED: src/components/testimonials/testimonials.scss (.testimonials rule)
+
+---
+
+Feat-003 | Card two-column layout
+  productTemplate renamed to cardTemplate. JSX structure:
+
+    <div className="testimonial-card">
+      <div className="testimonial-card__image-col">
+        <img src={item.image} alt={item.name} className="testimonial-card__img" />
+      </div>
+      <div className="testimonial-card__text-col">
+        ...
+      </div>
+    </div>
+
+  SCSS:
+    .testimonial-card        { display: flex; flex-direction: row; min-height: 280px;
+                               border-radius: 16px; overflow: hidden; max-width: 1000px; margin: 0 auto; }
+    .testimonial-card__image-col { flex: 0 0 33.333%; max-width: 33.333%;
+                                   overflow: hidden; background-color: lightgray; }
+    .testimonial-card__img   { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .testimonial-card__text-col  { flex: 1; display: flex; flex-direction: column;
+                                   justify-content: center; padding: 24px 16px 24px 24px; }
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/testimonials/testimonials.jsx (card JSX restructured)
+    - MODIFIED: src/components/testimonials/testimonials.scss (card BEM rules added)
+
+---
+
+Feat-004 | Quote and attribution text
+  JSX inside testimonial-card__text-col:
+    <p className="testimonial-card__quote">{item.quote}</p>
+    <p className="testimonial-card__attribution">{item.name} &amp; {item.dogName}</p>
+
+  SCSS:
+    .testimonial-card__quote         { text-align: left; margin-bottom: 16px;
+                                       font-style: italic; line-height: 1.6; }
+    .testimonial-card__attribution   { text-align: left; font-size: 0.875rem;
+                                       font-weight: 600; color: var(--text-secondary); }
+
+  Data structure updated: old { id, image, name, text } -> new { id, image, name, dogName, quote }.
+  Placeholder text content replaced with realistic testimonial copy.
+  Images: dog-walk.jpg, Golden-Retriever.jpg, terrier.jpg rotated across 4 items.
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/testimonials/testimonials.jsx (data array, card JSX)
+    - MODIFIED: src/components/testimonials/testimonials.scss (quote/attribution rules)
+
+---
+
+Feat-005 | Fix carousel index bug
+  Root cause: numScroll={3} — each arrow click advanced 3 array positions.
+  With 4 items this jumped from index 0 to index 3 (id 1 to id 4), skipping ids 2 and 3.
+
+  Fix: numScroll={1} on the Carousel component.
+
+  Additional cleanup:
+    - responsiveOptions array removed — all breakpoints want numVisible=1, numScroll=1
+      which matches the top-level props, making responsive overrides redundant
+    - Data array variable renamed from ProductService to testimonials
+    - State variable renamed from products to items for clarity
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/testimonials/testimonials.jsx (numScroll fix, data rename)
+
+  What was added (learning):
+    - PrimeReact Carousel numScroll controls how many items move per click.
+      numScroll={3} with 4 items caused the jump-to-last bug. Always set
+      numScroll={1} for a standard one-at-a-time carousel.
+
+---
+
+Feat-006 | Arrow size — 300%
+  Custom icons passed via prevIcon and nextIcon props (PrimeReact v10 accepts React nodes):
+    prevIcon={<FaChevronLeft className="testimonials__arrow-icon" />}
+    nextIcon={<FaChevronRight className="testimonials__arrow-icon" />}
+
+  FaChevronLeft and FaChevronRight imported from react-icons/fa.
+
+  SCSS:
+    .testimonials__arrow-icon { width: 42px; height: 42px; color: var(--nav-link-hover); }
+
+  42px is approximately 3x the default icon size of 14px.
+  Arrow button base styles in .testimonials__carousel:
+    .p-carousel-prev-button, .p-carousel-next-button {
+      align-self: center; background: none; border: none;
+      cursor: pointer; padding: 8px; color: var(--nav-link-hover); flex-shrink: 0;
+    }
+
+  Engine components considered: None applicable.
+  Files changed:
+    - MODIFIED: src/components/testimonials/testimonials.jsx (FaChevronLeft/Right import, prevIcon/nextIcon props)
+    - MODIFIED: src/components/testimonials/testimonials.scss (arrow icon and button rules)
+
+---
+
+General notes (actual implementation)
+  - testimonials.scss previously had 1 line — fully written this EPIC
+  - @use '../../assets/scss/ui/colours' included per project convention
+  - No PrimeReact theme CSS import needed — v10 injects component CSS via JS automatically
+  - var(--text-secondary) used for attribution colour — token added in EPIC-004
+  - var(--nav-link-hover) used for arrow colour — reuses existing brand pink token
+  - No engine components exist in this project (src/engine/ is empty)
+  - Component converted from export default function Testimonials()
+    to const Testimonials = () => {} per rules.txt file template convention

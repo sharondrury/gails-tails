@@ -1,0 +1,54 @@
+EPIC-005 — Testimonials Carousel
+==================================
+Project: Gails Tails
+Component: src/components/testimonials/testimonials.jsx
+
+---
+
+Feat-001 | Section heading
+  - Add a heading "My clients" to the left of the testimonials section
+  - Font size: 36px (matches About h1 text-4xl and PriceList .price-list__heading)
+  - Heading is left-aligned
+  Status: done
+
+Feat-002 | Section background
+  - The testimonials section background is white
+  - Applied to .testimonials wrapper in testimonials.scss
+  Status: done
+
+Feat-003 | Card layout — image left third, text right two-thirds
+  - Each carousel card is split into two columns:
+      Left column:  image — flex: 0 0 33.333%, object-fit: cover, full height
+      Right column: text — flex: 1, 67% of card width
+  - BEM classes: testimonial-card, testimonial-card__image-col, testimonial-card__text-col
+  - Fallback background-color: lightgray on image col if no image
+  Status: done
+
+Feat-004 | Card text layout — testimonial text and attribution
+  - testimonial-card__quote: italic, left-aligned, margin-bottom 16px
+  - testimonial-card__attribution: name & dogName, 0.875rem, font-weight 600,
+    colour var(--text-secondary), left-aligned
+  - Right column uses justify-content: center to vertically centre the text group
+  Status: done
+
+Feat-005 | Fix carousel index — flow through all testimonials
+  - Bug was numScroll={3} — each arrow click skipped 3 items (1→4)
+  - Fixed: numScroll={1} — each click advances exactly 1 item
+  - Simplified responsiveOptions removed — numVisible={1} numScroll={1} at all widths
+  - Data array updated: { id, image, name, dogName, quote } with 4 testimonials
+    using available images (dog-walk.jpg, Golden-Retriever.jpg, terrier.jpg)
+  Status: done
+
+Feat-006 | Arrow size increase — 300%
+  - prevIcon and nextIcon props set to FaChevronLeft/FaChevronRight with class
+    testimonials__arrow-icon (42px — approx 300% of default 14px icon)
+  - Arrow colour: var(--nav-link-hover) — brand pink
+  - Carousel arrow buttons styled in SCSS: background none, border none,
+    align-self center to remain vertically centred beside the card
+  Status: done
+
+---
+STOP AND TEST when all 6 features are marked done.
+Verify: heading visible left-aligned, white background, card shows image on
+left third, quote text and attribution visible on right, all 4 testimonials
+cycle one by one (no skipping), arrows are visibly larger and pink.
