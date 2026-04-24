@@ -5,7 +5,6 @@ $price-list-breakpoint: 850px;
 .price-list__heading {
   font-size: 36px;
   font-weight: bold;
-  text-align: center;
   padding-bottom: 24px;
   color: white;
 }
@@ -24,6 +23,192 @@ $price-list-breakpoint: 850px;
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+// Desktop tab sub-sub-heading (e.g. contact/availability note)
+.price-list__sub-sub-heading {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+// Price table — used in both desktop tab and mobile accordion
+.price-table {
+  padding: 8px 0;
+}
+
+.price-table__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.price-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+
+  th,
+  td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid lightgrey;
+    font-size: 14px;
+  }
+
+  thead th {
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: whitesmoke;
+    border-bottom: 2px solid lightgrey;
+  }
+
+  .price-table__stub-head {
+    width: 100px;
+  }
+
+  .price-table__row-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.boarding-grid {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  gap: 32px;
+  align-items: start;
+  padding: 8px 0;
+}
+
+.boarding-grid__description {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.boarding-grid__pricing {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.boarding-grid__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.boarding-grid__rates {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.boarding-grid__rate-row {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.boarding-grid__rate-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.boarding-grid__rate-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.boarding-grid__notes {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.boarding-grid__footer {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-style: italic;
+  border-top: 1px solid lightgrey;
+  padding-top: 10px;
+}
+
+@media only screen and (max-width: $price-list-breakpoint) {
+  .boarding-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.visit-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.visit-grid__row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: start;
+  gap: 16px;
+}
+
+.visit-grid__label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding-top: 2px;
+}
+
+.visit-grid__details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.visit-grid__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.visit-grid__duration {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.visit-grid__price {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.visit-grid__availability {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.price-table__footer {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+  padding-top: 4px;
 }
 
 // Mobile accordion — hidden on desktop
@@ -78,6 +263,13 @@ $price-list-breakpoint: 850px;
     margin: 0;
   }
 
+  .price-list__item-sub-sub-heading {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 0;
+  }
+
   .price-list__item-icon {
     flex-shrink: 0;
     margin-left: 16px;
@@ -105,7 +297,7 @@ $price-list-breakpoint: 850px;
   }
 
   .price-list__item--open .price-list__item-body {
-    max-height: 600px;
+    max-height: 800px;
     opacity: 1;
   }
 
