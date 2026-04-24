@@ -15,19 +15,21 @@ $price-list-breakpoint: 850px;
 .price-list__paw {
   position: absolute;
   filter: brightness(0) invert(1);
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
 }
 
 .price-list__paw--left {
-  transform: rotate(40deg);
+  left: 0;
   top: 40%;
+  transform: translateX(-90%) rotate(40deg);
   width: 250px;
 }
 
 .price-list__paw--right {
-  right: -80px;
+  right: 0;
   top: 50%;
+  transform: translateX(80%);
   width: 400px;
 }
 

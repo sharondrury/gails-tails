@@ -139,9 +139,9 @@ const PriceList = () => {
 
   return (
     <div className="price-list__wrapper">
+      <div className="price-list__content max-w-5xl mx-auto p-6">
       <img src={pawsWave2Svg} className="price-list__paw price-list__paw--left" alt="" aria-hidden="true" />
       <img src={pawsWaveSvg} className="price-list__paw price-list__paw--right" alt="" aria-hidden="true" />
-      <div className="price-list__content max-w-5xl mx-auto p-6">
       <h1 className="price-list__heading">Price list</h1>
 
       {/* Desktop tab layout — hidden below 850px via SCSS */}
