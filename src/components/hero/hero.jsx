@@ -41,13 +41,13 @@ const handleNavClick = (target) => {
 
         {/* Hero text content — left-aligned, max 1000px */}
         <div className="hero__content">
-          <h1 className="text-6xl hero-heading">GAIL's TAIL's</h1>
-          <h1 className="text-6xl hero-heading mb-6 mt-3">DOG WALKER</h1>
-          <h2 className="text-2xl mb-8">Your local best friend walker</h2>
+          <h1 className="sm:text-6xl text-4xl hero-heading">GAIL's TAIL's</h1>
+          <h1 className="sm:text-6xl text-4xl hero-heading mb-6 mt-3">DOG WALKER</h1>
+          <h2 className="sm:text-2xl text-xl mb-8">Your local best friend walker</h2>
           {LINKS.map((link) => (
             <button
               key={link.target}
-              className="bg-[#F38299] hover:not-focus:bg-[#fab0b9] px-4 py-[14px] rounded-[8px] w-1/3 font-bold"
+              className="bg-[#F38299] hover:not-focus:bg-[#fab0b9] px-4 py-[14px] rounded-[8px] w-1/2 sm:w-1/3 font-bold"
               onClick={() => handleNavClick(link.target)}
             >
               {link.label}

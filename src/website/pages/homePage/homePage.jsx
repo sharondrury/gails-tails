@@ -29,7 +29,7 @@ const HomePage = () => {
   return (
     <>
       <Nav />
-      <main className="bg-[#D9D9D9] pt-[88px]">
+      <main className="bg-[#D9D9D9] pt-[88px] overflow-x-hidden">
         <div className="relative">
           <div
             ref={heroRef}

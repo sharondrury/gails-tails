@@ -26,6 +26,9 @@
   max-width: 33.333%;
   overflow: hidden;
   background-color: lightgray;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }
 
 .testimonial-card__img {
@@ -33,6 +36,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+
 }
 
 .testimonial-card__text-col {
